@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.description = 'Export orders'
   s.required_ruby_version = '>= 1.9.3'
 
-  s.author    = 'ecl1pse'
+  s.author    = 'christoph-buente'
   s.email     = 'ecl1pse.armageddon@gmail.com'
-  s.homepage  = 'https://github.com/ecl1pse/spree_export'
+  s.homepage  = 'https://github.com/meinekleinefarm/spree_export'
 
   #s.files       = `git ls-files`.split("\n")
   #s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
