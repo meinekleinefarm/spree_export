@@ -9,7 +9,7 @@ Spree::Variant.class_eval do
       ov.presentation
     end
 
-    values << "Schwein X" if values.empty?
+    values << "Schwein x" if values.empty?
 
     values.to_sentence({ :words_connector => ", ", :two_words_connector => ", " })
   end

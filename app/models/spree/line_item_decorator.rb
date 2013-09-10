@@ -5,7 +5,7 @@ Spree::LineItem.class_eval do
 
   # "ProduktID: 3 Rotwurst (Schwein 1) 1 Glas / 200g 1 x 3,50 EUR = 3,50 EUR"
   def to_csv
-    "ProduktID: #{variant.product.id} #{variant.product.name} (#{variant.options_presentation || 'Schwein X'}) #{product.container} / #{product.net_weight}g #{quantity} x #{number_to_currency(Spree::Money.new(price).money, unit: 'EUR')} = #{number_to_currency(Spree::Money.new(price * quantity).money, unit: 'EUR')}"
+    "ProduktID: #{variant.product.id} #{variant.product.name} (#{variant.options_presentation || 'Schwein x'}) #{product.container} / #{product.net_weight}g #{quantity} x #{number_to_currency(Spree::Money.new(price).money, unit: 'EUR')} = #{number_to_currency(Spree::Money.new(price * quantity).money, unit: 'EUR')}"
   end
 
   def tax_amount
