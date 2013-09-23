@@ -7,7 +7,8 @@ Spree::Order.class_eval do
   end
 
   def self.paid_and_ready_to_ship
-    where(payment_state: 'paid', shipment_state: 'ready')
+    # where(payment_state: 'paid', shipment_state: 'ready')
+    where('')
   end
 
   def total_weight
@@ -181,7 +182,7 @@ Spree::Order.class_eval do
     CSV.generate(:col_sep => ';', :force_quotes => true) do |csv|
       csv << csv_headers
       all.each do |order|
-        csv << order.to_csv
+        csv << order.to_csv rescue nil
       end
     end
   end
