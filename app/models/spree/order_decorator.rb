@@ -83,6 +83,10 @@ Spree::Order.class_eval do
     billing_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\2') rescue nil
   end
 
+  def billing_country
+    billing_address.try(:country).try(:iso).try(:upcase) || 'DE'
+  end
+
   def billing_phone
     billing_address.try(:phone)
   end
@@ -115,6 +119,11 @@ Spree::Order.class_eval do
     shipping_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\2') rescue nil
   end
 
+  def shipping_country
+    shipping_address.try(:country).try(:iso).try(:upcase) || 'DE'
+  end
+
+
   def shipping_phone
     shipping_address.try(:phone)
   end
@@ -140,23 +149,25 @@ Spree::Order.class_eval do
       id.to_s,
       status,
       billing_salutation,
-      billing_first_name,
-      billing_last_name,
-      billing_zip,
-      billing_city,
-      billing_street,
-      billing_street_nr,
-      email,
-      billing_phone,
-      shipping_salutation,
-      shipping_first_name,
-      shipping_last_name,
-      shipping_zip,
-      shipping_city,
-      shipping_street,
-      shipping_street_nr,
-      email,
-      shipping_phone,
+      billing_first_name.strip,
+      billing_last_name.strip,
+      billing_zip.strip,
+      billing_city.strip,
+      billing_street.strip,
+      billing_street_nr.strip,
+      billing_country.strip,
+      email.strip,
+      billing_phone.strip,
+      shipping_salutation.strip,
+      shipping_first_name.strip,
+      shipping_last_name.strip,
+      shipping_zip.strip,
+      shipping_city.strip,
+      shipping_street.strip,
+      shipping_street_nr.strip,
+      shipping_country.strip,
+      email.strip,
+      shipping_phone.strip,
       'Nein',
       'Nein',
       'Nein',
@@ -197,6 +208,7 @@ Spree::Order.class_eval do
       billing_city
       billing_street
       billing_street_nr
+      billing_country
       billing_email
       billing_phone
       shipping_salutation
@@ -206,6 +218,7 @@ Spree::Order.class_eval do
       shipping_city
       shipping_street
       shipping_street_nr
+      shipping_country
       shipping_email
       shipping_phone
       shipping_address_is_billing_address
