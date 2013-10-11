@@ -84,7 +84,7 @@ Spree::Order.class_eval do
   end
 
   def billing_country
-    billing_address.try(:country).try(:iso).try(:upcase) || 'DE'
+    billing_address.try(:country).try(:iso).try(:upcase) || 'DE'
   end
 
   def billing_phone
@@ -120,7 +120,7 @@ Spree::Order.class_eval do
   end
 
   def shipping_country
-    shipping_address.try(:country).try(:iso).try(:upcase) || 'DE'
+    shipping_address.try(:country).try(:iso).try(:upcase) || 'DE'
   end
 
 
