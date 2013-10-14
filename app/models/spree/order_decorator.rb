@@ -83,6 +83,10 @@ Spree::Order.class_eval do
     billing_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\2') rescue nil
   end
 
+  def billing_street_additional
+    billing_address.try(:address2)
+  end
+
   def billing_country
     billing_address.try(:country).try(:iso).try(:upcase) || 'DE'
   end
@@ -117,6 +121,10 @@ Spree::Order.class_eval do
 
   def shipping_street_nr
     shipping_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\2') rescue nil
+  end
+
+  def shipping_street_additional
+    shipping_address.try(:address2)
   end
 
   def shipping_country
@@ -155,6 +163,7 @@ Spree::Order.class_eval do
       billing_city.strip,
       billing_street.strip,
       billing_street_nr.strip,
+      billing_street_additional.strip,
       billing_country.strip,
       email.strip,
       billing_phone.strip,
@@ -165,6 +174,7 @@ Spree::Order.class_eval do
       shipping_city.strip,
       shipping_street.strip,
       shipping_street_nr.strip,
+      shipping_street_additional.strip,
       shipping_country.strip,
       email.strip,
       shipping_phone.strip,
@@ -208,6 +218,7 @@ Spree::Order.class_eval do
       billing_city
       billing_street
       billing_street_nr
+      billing_street_additional
       billing_country
       billing_email
       billing_phone
@@ -218,6 +229,7 @@ Spree::Order.class_eval do
       shipping_city
       shipping_street
       shipping_street_nr
+      shipping_street_additional
       shipping_country
       shipping_email
       shipping_phone
