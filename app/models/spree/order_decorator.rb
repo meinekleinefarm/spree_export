@@ -23,6 +23,20 @@ Spree::Order.class_eval do
     end
   end
 
+  def frisch_fleisch_taxon
+    Spree::Taxon.where("LOWER(name) LIKE '%frisch%'").first
+  end
+
+  def net_weight_cooling
+    line_items.inject(0) do |weight, line_item|
+      if line_item.product.taxons.include? frisch_fleisch_taxon
+        weight + (line_item.product.net_weight ? (line_item.quantity * line_item.product.net_weight.to_i) : 0)
+      else
+        weight
+      end
+    end
+  end
+
   def status
     shipment_status || payment_status || order_status
   end
@@ -188,6 +202,7 @@ Spree::Order.class_eval do
       total.to_f.to_s, #price_total
       net_weight, #weight_total_in_gram
       total_weight, #weight_total_in_gram_brutto
+      net_weight_cooling, #weight_total_in_gram_for_cooling_products
       created_at.strftime("%Y-%m-%d"), #"2012-01-06"
       created_at.strftime("%H:%M:%S"), #"09:43:36"
       created_at.strftime("%Y-%m-%d"), #"2012-01-06"
@@ -243,6 +258,7 @@ Spree::Order.class_eval do
       price_total
       weight_total_in_gram
       weight_total_in_gram_brutto
+      weight_total_in_gram_for_cooling_products
       created_at_date
       created_at_time
       updated_at_date
