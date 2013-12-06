@@ -113,12 +113,24 @@ Spree::Order.class_eval do
     'Herr/Frau'
   end
 
+  def packstation?
+    shipping_address.try(:address1) == 'Packstation'
+  end
+
   def shipping_first_name
-    shipping_address.try(:firstname)
+    if packstation?
+      [shipping_address.try(:firstname), shipping_address.try(:lastname)].compact.join(' ')
+    else
+      shipping_address.try(:firstname)
+    end
   end
 
   def shipping_last_name
-    shipping_address.try(:lastname)
+    if packstation?
+      shipping_address.try(:locker_number)
+    else
+      shipping_address.try(:lastname)
+    end
   end
 
   def shipping_city
@@ -130,11 +142,19 @@ Spree::Order.class_eval do
   end
 
   def shipping_street
-    shipping_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\1') rescue nil
+    if packstation?
+      shipping_address.try(:address1)
+    else
+      shipping_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\1') rescue nil
+    end
   end
 
   def shipping_street_nr
-    shipping_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\2') rescue nil
+    if packstation?
+      shipping_address.try(:station_number)
+    else
+      shipping_address.try(:address1).gsub(/^([a-zäöüß\s\d.,-]+?)\s*([\d\s]+(?:\s?[-|+\/]\s?\d+)?\s*[a-z]?)?$/i,'\2') rescue nil
+    end
   end
 
   def shipping_street_additional
@@ -144,7 +164,6 @@ Spree::Order.class_eval do
   def shipping_country
     shipping_address.try(:country).try(:iso).try(:upcase) || 'DE'
   end
-
 
   def shipping_phone
     shipping_address.try(:phone)
